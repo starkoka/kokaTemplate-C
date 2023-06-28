@@ -1,10 +1,6 @@
 /*-------------------------------------------------------------------------
-kokalib.h v1.1.0
-
-kokalib.cを使用するファイルの上部でincludeすることで、関数を読み込みます。
-#inlucde "kokalib.h" を使用してください。
-先生への提出時には中身を貼り付けること。
-
+kokalib v1.1.1
+いろいろな関数を用意しています。sugoi
 
 作成者:kokastar(GitHub:starkoka)
 最終更新:2023/6/2
@@ -18,7 +14,7 @@ int randNum(int min,int max);
 int putint(void);
 int stop(int sec,int nsec);
 
-int main(void){
+int main(){
 	
 	return 0;
 }
