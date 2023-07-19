@@ -1,9 +1,9 @@
 /*-------------------------------------------------------------------------
-kokalib v1.1.1
+kokalib v1.1.2
 いろいろな関数を用意しています。sugoi
 
 作成者:kokastar(GitHub:starkoka)
-最終更新:2023/6/2
+最終更新:2023/7/19
 -------------------------------------------------------------------------*/
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,7 +11,7 @@ kokalib v1.1.1
 #include <unistd.h>
 
 int randNum(int min,int max);
-int putint(void);
+int putint(char txt[]);
 int stop(int sec,int nsec);
 
 int main(){
@@ -49,10 +49,13 @@ int randNum(int min,int max){
 name : putint
 explanation : intの入力を受け取る。
 return : int
+
+char txt[] : 入力時に表示する文字列
 -------------------------------------------------------------------------*/
 
-int putint(void){
+int putint(char txt[]){
 	int num;
+	printf("%s",txt);
 	scanf("%d",&num);
 	return num;
 }
