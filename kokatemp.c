@@ -16,6 +16,7 @@ int randNum(int min,int max);
 int putInt(char txt[]);
 void stop(int sec,int nSec);
 bool equalStr(char a[],char b[],bool perfect,int point);
+int countWord(char string[],char word[]);
 char* replaceStr(char string[],char before[],char after[]);
 
 int main(){
@@ -113,6 +114,26 @@ bool equalStr(char a[],char b[],bool perfect,int point){
 }
 
 /*------------------------------------------------------------------------
+name : countWord
+explanation : 文字列の中に特定のワードが何回出てくるかカウントする
+return : int
+
+char string[]  : 文字列
+char word[]    : カウントする単語
+-------------------------------------------------------------------------*/
+int countWord(char string[],char word[]){
+    /*出てくる回数をカウントして、確保すべきメモリを計算*/
+    int num = 0;
+    for (int i = 0; i < strlen(string); i++) {
+        if (equalStr(string, word, false, i)) {
+            num++;
+        }
+    }
+
+    return num;
+}
+
+/*------------------------------------------------------------------------
 name : replaceStr
 explanation : 文字列の特定のワードを、別のワードで置き換える
 return : char*
@@ -124,12 +145,7 @@ char after[]   : 置き換え後の文字列
 char* replaceStr(char string[],char before[],char after[]){
 
     /*出てくる回数をカウントして、確保すべきメモリを計算*/
-    int num = 0;
-    for(int i=0;i<strlen(string);i++){
-        if(equalStr(string,before,false,i)){
-            num++;
-        }
-    }
+    countWord(string,before);
     int siz = strlen(string) - (strlen(before)-strlen(after)) * sizeof(char);
 
     /*メモリ領域を確保し、ポインタ変数に格納*/
