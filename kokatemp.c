@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------
-kokalib v1.2.0
+kokaTemplate_C v1.2.0
 いろいろな関数を用意しています。sugoi
 
 作成者:kokastar(GitHub:starkoka)
@@ -9,14 +9,18 @@ kokalib v1.2.0
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
+#include <stdbool.h>
+#include <string.h>
 
 int randNum(int min,int max);
-int putint(char txt[]);
-int stop(int sec,int nsec);
+int putInt(char txt[]);
+void stop(int sec,int nSec);
+bool equalStr(char a[],char b[],bool perfect,int point);
+char* replaceStr(char string[],char before[],char after[]);
 
 int main(){
-	
-	return 0;
+
+    return 0;
 }
 
 
@@ -30,34 +34,34 @@ max : 最大値。正の整数のみを受け付ける
 -------------------------------------------------------------------------*/
 
 int randNum(int min,int max){
-	static int flag = 0;
-	if(flag == 0){
-		flag = 1;
-		srand((unsigned)time(NULL));
-	}
+    static int flag = 0;
+    if(flag == 0){
+        flag = 1;
+        srand((unsigned)time(NULL));
+    }
 
-	if(min >= 0 && max >= 0 && min<max){
-		return rand()%(max-min+1)+min ;
-		flag = 1;
-	}
-	else{
-		return -1;
-	}
+    if(min >= 0 && max >= 0 && min<max){
+        return rand()%(max-min+1)+min ;
+        flag = 1;
+    }
+    else{
+        return -1;
+    }
 }
 
 /*-------------------------------------------------------------------------
-name : putint
+name : putInt
 explanation : intの入力を受け取る。
 return : int
 
 char txt[] : 入力時に表示する文字列
 -------------------------------------------------------------------------*/
 
-int putint(char txt[]){
-	int num;
-	printf("%s",txt);
-	scanf("%d",&num);
-	return num;
+int putInt(char txt[]){
+    int num;
+    printf("%s",txt);
+    scanf("%d",&num);
+    return num;
 }
 
 /*------------------------------------------------------------------------
@@ -66,13 +70,59 @@ explanation : 指定した時間プログラムを待機させる
 return : なし
 
 int sec  : 停止時間[s]
-int nsec : 停止時間[ns]
+int nSec : 停止時間[ns]
 -------------------------------------------------------------------------*/
 
-int stop(int sec,int nsec){
-	struct timespec ts,rem;
-	ts.tv_sec = sec;
-	ts.tv_nsec = nsec;
+void stop(int sec,int nSec){
+    struct timespec ts,rem;
+    ts.tv_sec = sec;
+    ts.tv_nsec = nSec;
 
-	nanosleep(&ts,&rem);
+    nanosleep(&ts,&rem);
+}
+
+/*------------------------------------------------------------------------
+name : equalStr
+explanation : 文字列を比較し、等しいかどうか判定する
+return : bool
+
+char a[]  　　　: 文字列a
+char b[]       : 文字列b
+bool perfect   : aがbを含む場合の文字列の処理。trueの場合point引数は無視される
+int point      : aの何文字目から確認したいかを指定(0オリジン)
+-------------------------------------------------------------------------*/
+bool equalStr(char a[],char b[],bool perfect,int point){
+    if(perfect){
+        if(strlen(a)) != strlen(b))return false;
+        for(int i=0;i<strlen(a);i++){
+            if(a[i]!=b[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+    else{
+        if(strlen(a)-point<strlen(b))return false;
+        for(int i=0;i<strlen(b);i++){
+            if(a[i+point]!=b[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+/*------------------------------------------------------------------------
+name : replaceStr
+explanation : 文字列の特定のワードを、別のワードで置き換える
+return : char*
+
+char string[]  : 文字列
+char before[] : 置き換え前文字列
+char after[]   : 置き換え後の文字列
+-------------------------------------------------------------------------*/
+char* replaceStr(char string[],char before[],char after[]){
+    for(int i=0;i<strlen(string);i++){
+
+    }
 }
