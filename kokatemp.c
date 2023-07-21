@@ -146,7 +146,6 @@ char* replaceStr(char string[],char before[],char after[]){
             i += strlen(before);
             for(int k=0;k<strlen(after);k++){
                 new[j] = after[k];
-                char test[BUFSIZ];strcpy(test,new);
                 j++;
             }
             j--; //forでjの更新処理が入るので、それを打ち消す
