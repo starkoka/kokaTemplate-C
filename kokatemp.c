@@ -158,23 +158,5 @@ char* replaceStr(char string[],char before[],char after[]){
 
     }
 
-
-    /*
-    int i=0;
-    for(int j=0;i<strlen(string);j++){
-       if(equalStr(string,before,false,i)){
-            i += strlen(before);
-            for(int k=0;k<strlen(after);k++){
-                new[j] = after[k];
-                j++;
-            }
-        }
-        else{
-            new[j] = string[i];
-        }
-        i++;
-    }
-     */
-
     return new;
 }
