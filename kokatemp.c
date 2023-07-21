@@ -22,7 +22,7 @@ int main(){
 
     return 0;
 }
-
+//replaceStr関数使用時は、free関数で開放するのを忘れないように
 
 /*-------------------------------------------------------------------------
 name : randNum
@@ -93,7 +93,7 @@ int point      : aの何文字目から確認したいかを指定(0オリジン
 -------------------------------------------------------------------------*/
 bool equalStr(char a[],char b[],bool perfect,int point){
     if(perfect){
-        if(strlen(a)) != strlen(b))return false;
+        if(strlen(a) != strlen(b))return false;
         for(int i=0;i<strlen(a);i++){
             if(a[i]!=b[i]){
                 return false;
@@ -122,7 +122,59 @@ char before[] : 置き換え前文字列
 char after[]   : 置き換え後の文字列
 -------------------------------------------------------------------------*/
 char* replaceStr(char string[],char before[],char after[]){
+
+    /*出てくる回数をカウントして、確保すべきメモリを計算*/
+    int num = 0;
     for(int i=0;i<strlen(string);i++){
+        if(equalStr(string,before,false,i)){
+            num++;
+        }
+    }
+    int siz = strlen(string) - (strlen(before)-strlen(after)) * sizeof(char);
+
+    /*メモリ領域を確保し、ポインタ変数に格納*/
+    char *new = (char*)malloc(siz);
+    if(new == NULL){
+        printf("メモリ確保失敗：replaceStr\n");
+        exit(2);
+    }
+
+    int i=0;//stringの参照位置
+    int j=0;//newへの書き込み位置
+    for(;i<strlen(string);j++){
+        if(equalStr(string,before,false,i)){
+            i += strlen(before);
+            for(int k=0;k<strlen(after);k++){
+                new[j] = after[k];
+                char test[BUFSIZ];strcpy(test,new);
+                j++;
+            }
+            j--; //forでjの更新処理が入るので、それを打ち消す
+        }
+        else{
+            new[j] = string[i];
+            i++;
+        }
 
     }
+
+
+    /*
+    int i=0;
+    for(int j=0;i<strlen(string);j++){
+       if(equalStr(string,before,false,i)){
+            i += strlen(before);
+            for(int k=0;k<strlen(after);k++){
+                new[j] = after[k];
+                j++;
+            }
+        }
+        else{
+            new[j] = string[i];
+        }
+        i++;
+    }
+     */
+
+    return new;
 }
