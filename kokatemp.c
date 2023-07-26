@@ -1,9 +1,9 @@
 /*-------------------------------------------------------------------------
-kokaTemplate_C v2.0.0
+kokaTemplate_C v2.0.1
 いろいろな関数を用意しています。sugoi
 
 作成者:kokastar(GitHub:starkoka)
-最終更新:2023/7/22
+最終更新:2023/7/26
 -------------------------------------------------------------------------*/
 #include <stdio.h>
 #include <stdlib.h>
@@ -132,7 +132,6 @@ int countWord(char string[],char word[]){
 
     return num;
 }
-
 /*------------------------------------------------------------------------
 name : replaceStr
 explanation : 文字列の特定のワードを、別のワードで置き換える
@@ -146,7 +145,7 @@ char* replaceStr(char string[],char before[],char after[]){
 
     /*出てくる回数をカウントして、確保すべきメモリを計算*/
     countWord(string,before);
-    int siz = strlen(string) - (strlen(before)-strlen(after)) * sizeof(char);
+    int siz = strlen(string) - (strlen(before)-strlen(after)) * sizeof(char)+1;
 
     /*メモリ領域を確保し、ポインタ変数に格納*/
     char *new = (char*)malloc(siz);
@@ -172,6 +171,7 @@ char* replaceStr(char string[],char before[],char after[]){
         }
 
     }
+    new[j]='\0';
 
     return new;
 }
