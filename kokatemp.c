@@ -1,9 +1,9 @@
 /*-------------------------------------------------------------------------
-kokaTemplate_C v2.0.1
+kokaTemplate_C v3.0.0
 いろいろな関数を用意しています。sugoi
 
 作成者:kokastar(GitHub:starkoka)
-最終更新:2023/7/26
+最終更新:2023/11/17
 -------------------------------------------------------------------------*/
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,22 +18,27 @@ void stop(int sec,int nSec);
 bool equalStr(char a[],char b[],bool perfect,int point);
 int countWord(char string[],char word[]);
 char* replaceStr(char string[],char before[],char after[]);
+char* joinStr(char strA[],char strB[]);
+
+/***
+ * 2つの変数を入れ替える
+ * @param type 交換したい変数の型
+ * @param a 交換したい変数
+ * @param b 交換したい変数
+ */
+#define swap(type,a,b) {type temp=a;a=b;b=temp;}
 
 int main(){
-
-    return 0;
+	
 }
-//replaceStr関数使用時は、free関数で開放するのを忘れないように
+//replaceStr,joinStr関数使用時は、free関数で開放するのを忘れないように
 
-/*-------------------------------------------------------------------------
-name : randNum
-explanation : min~maxまでの乱数を返す。
-return : int(エラー時-1)
-
-min : 最小値。正の整数のみを受け付ける
-max : 最大値。正の整数のみを受け付ける
--------------------------------------------------------------------------*/
-
+/***
+ * min~maxまでの乱数を返す
+ * @param min 最小値。正の整数のみを受け付ける
+ * @param max 最大値。正の整数のみを受け付ける
+ * @returns int
+ */
 int randNum(int min,int max){
     static int flag = 0;
     if(flag == 0){
@@ -50,14 +55,11 @@ int randNum(int min,int max){
     }
 }
 
-/*-------------------------------------------------------------------------
-name : putInt
-explanation : intの入力を受け取る。
-return : int
-
-char txt[] : 入力時に表示する文字列
--------------------------------------------------------------------------*/
-
+/***
+ * intの入力を受け取る
+ * @param txt[] 入力時に表示する文字列
+ * @returns int
+ */
 int putInt(char txt[]){
     int num;
     printf("%s",txt);
@@ -65,15 +67,12 @@ int putInt(char txt[]){
     return num;
 }
 
-/*------------------------------------------------------------------------
-name : stop
-explanation : 指定した時間プログラムを待機させる
-return : なし
-
-int sec  : 停止時間[s]
-int nSec : 停止時間[ns]
--------------------------------------------------------------------------*/
-
+/***
+ * 指定した時間プログラムを待機させる
+ * @param sec 停止時間[s]
+ * @param nSec 停止時間[ns]
+ * @returns void
+ */
 void stop(int sec,int nSec){
     struct timespec ts,rem;
     ts.tv_sec = sec;
@@ -82,16 +81,14 @@ void stop(int sec,int nSec){
     nanosleep(&ts,&rem);
 }
 
-/*------------------------------------------------------------------------
-name : equalStr
-explanation : 文字列を比較し、等しいかどうか判定する
-return : bool
-
-char a[]  　　　: 文字列a
-char b[]       : 文字列b
-bool perfect   : aがbを含む場合の文字列の処理。trueの場合point引数は無視される
-int point      : aの何文字目から確認したいかを指定(0オリジン)
--------------------------------------------------------------------------*/
+/***
+ * 文字列を比較し、等しいかどうか判定する
+ * @param a[] 文字列a
+ * @param b[] 文字列b
+ * @param perfect aがbを含む場合の文字列の処理。truの場合point引数は無視される
+ * @param point aのなん文字目から確認したいかを指定(0オリジン)
+ * @returns bool
+ */
 bool equalStr(char a[],char b[],bool perfect,int point){
     if(perfect){
         if(strlen(a) != strlen(b))return false;
@@ -113,14 +110,12 @@ bool equalStr(char a[],char b[],bool perfect,int point){
     }
 }
 
-/*------------------------------------------------------------------------
-name : countWord
-explanation : 文字列の中に特定のワードが何回出てくるかカウントする
-return : int
-
-char string[]  : 文字列
-char word[]    : カウントする単語
--------------------------------------------------------------------------*/
+/***
+ * 文字列の中に特定のワードが何回出てくるかカウントする
+ * @param string[] 文字列
+ * @param word[] カウントする単語
+ * @returns int*
+ */
 int countWord(char string[],char word[]){
     /*出てくる回数をカウントして、確保すべきメモリを計算*/
     int num = 0;
@@ -132,15 +127,14 @@ int countWord(char string[],char word[]){
 
     return num;
 }
-/*------------------------------------------------------------------------
-name : replaceStr
-explanation : 文字列の特定のワードを、別のワードで置き換える
-return : char*
 
-char string[]  : 文字列
-char before[] : 置き換え前文字列
-char after[]   : 置き換え後の文字列
--------------------------------------------------------------------------*/
+/***
+ * 文字列の特定のワードを、別のワードで置き換える
+ * @param string[] 文字列
+ * @param before[] 置き換え前の文字列
+ * @param after[] 置き換え後の文字列
+ * @returns char*
+ */
 char* replaceStr(char string[],char before[],char after[]){
 
     /*出てくる回数をカウントして、確保すべきメモリを計算*/
@@ -174,4 +168,23 @@ char* replaceStr(char string[],char before[],char after[]){
     new[j]='\0';
 
     return new;
+}
+
+/***
+ * 2つの文字列を結合する
+ * @param strA[] 結合する前側の文字列
+ * @param strB[] 結合する後側の文字列
+ * @returns char*
+ */
+char* joinStr(char strA[],char strB[]){
+	int siz = strlen(strA) + strlen(strB) + 1;
+	char *str = (char *)malloc(sizeof(char)*siz);
+	for(int i=0;i<strlen(strA);i++){
+		str[i] = strA[i];
+	}
+	for(int i=strlen(strA);i<siz-1;i++){
+		str[i] = strB[i-strlen(strA)];
+	}
+	str[siz-1] = '\0';
+	return str;
 }
